@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.5.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.5.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.5.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.5.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Android布局中的硬编码 什么是Android布局中的硬编码   Android里的硬编码指在布局里直接填写值（如尺寸、颜色、字符等），而非对相关资源的引用。这里以android:text为例：">
+<meta name="keywords" content="Android,硬编码,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用Python解决Android布局中的字符串硬编码问题">
+<meta property="og:url" content="https://bbsmp.github.io/2017/02/23/python-to-android-hard-code/index.html">
+<meta property="og:site_name" content="bbsmp的code世界">
+<meta property="og:description" content="Android布局中的硬编码 什么是Android布局中的硬编码   Android里的硬编码指在布局里直接填写值（如尺寸、颜色、字符等），而非对相关资源的引用。这里以android:text为例：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-02-24T05:59:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用Python解决Android布局中的字符串硬编码问题">
+<meta name="twitter:description" content="Android布局中的硬编码 什么是Android布局中的硬编码   Android里的硬编码指在布局里直接填写值（如尺寸、颜色、字符等），而非对相关资源的引用。这里以android:text为例：">
+
+
+
+
+
+
+  <link rel="canonical" href="https://bbsmp.github.io/2017/02/23/python-to-android-hard-code/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>用Python解决Android布局中的字符串硬编码问题 | bbsmp的code世界</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">bbsmp的code世界</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">bbsmp的技术小黑屋</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">2</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">2</span></a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+    <div class="reading-progress-bar"></div>
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bbsmp.github.io/2017/02/23/python-to-android-hard-code/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bbsmp">
+      <meta itemprop="description" content="代码如诗">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="bbsmp的code世界">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">用Python解决Android布局中的字符串硬编码问题
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2017-02-23 21:19:28" itemprop="dateCreated datePublished" datetime="2017-02-23T21:19:28+08:00">2017-02-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2017-02-24 13:59:05" itemprop="dateModified" datetime="2017-02-24T13:59:05+08:00">2017-02-24</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/23/python-to-android-hard-code/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2017/02/23/python-to-android-hard-code/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/02/23/python-to-android-hard-code/" class="leancloud_visitors" data-flag-title="用Python解决Android布局中的字符串硬编码问题">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views: </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Android布局中的硬编码"><a href="#Android布局中的硬编码" class="headerlink" title="Android布局中的硬编码"></a>Android布局中的硬编码</h2><ul>
+<li><p>什么是Android布局中的硬编码</p>
+<p>  Android里的硬编码指在布局里直接填写值（如尺寸、颜色、字符等），而非对相关资源的引用。这里以<code>android:text</code>为例：<a id="more"></a></p>
+</li>
+</ul>
+<p>硬编码：</p>
+<pre><code>&lt;TextView
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;你好，我是硬编码&quot;
+    android:textSize=&quot;@dimen/li_16sp_size&quot;/&gt;
+</code></pre><p>软编码：</p>
+<pre><code>&lt;TextView
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;@stirng/hard_code&quot;
+    android:textSize=&quot;@dimen/li_16sp_size&quot;/&gt;
+</code></pre><p>“你好，我是硬编码”在字符串资源里是这样的：<br><code>&lt;string name=&quot;hard_code&quot;&gt;你好，我是硬编码&lt;/string&gt;</code></p>
+<ul>
+<li>硬编码的优缺点<br>在Android布局中硬编码有什么优缺点呢，在我看来除了方便外，并没有别的优点，然而这个“优点”会为后面的维护扩展带来困难，所以也算不得什么优点，大致可认为这是Android开发中的一个坏习惯。这个坏习惯我们尽量要改掉，因为：</li>
+</ul>
+<ol>
+<li>硬编码不利于复用</li>
+<li>硬编码不利于维护</li>
+<li>硬编码性能低于软编码</li>
+</ol>
+<h2 id="问题的出现"><a href="#问题的出现" class="headerlink" title="问题的出现"></a>问题的出现</h2><p>由于大多数场景下项目并没有涉及国际化，加上自己的一些不良习惯，经常在Android布局文件中进行硬编码。这通常不会出什么大问题，然而最近把项目转到Windows环境下开发，居然跑不起来了。报了这样的错误：</p>
+<pre><code>错误: Exception while handling step android.databinding.annotationprocessor.ProcessExpressions@572da56d javax.xml.bind.UnmarshalException
+- with linked exception:
+[org.apache.xerces.impl.io.MalformedByteSequenceException: Invalid byte 2 of 2-byte UTF-8 sequence.]
+······
+</code></pre><p> 经查发现，这是因为在Windows环境下,布局中databinding相关的中文字符非UTF-8所致，也就是说，这是中文硬编码导致的问题。用Lint分析一下发现硬编码的地方有279个，叉，手动改的话还不改死人？而且手动，这<strong>违背</strong>程序员<strong>懒的美德</strong>。怎么办呢？刚好前段时间看了一下Python,那就用Python解决这个问题吧！</p>
+<h2 id="利用Python解决字符串硬编码问题"><a href="#利用Python解决字符串硬编码问题" class="headerlink" title="利用Python解决字符串硬编码问题"></a>利用Python解决字符串硬编码问题</h2><p>我们要做的事情，就是查找出布局文件里所有的中文字符串，并为其生成一个符合Android字符串资源命名规范的名字，构造字符串资源，然后将布局里所有的字符串替换为字符串资源的引用如<code>@stirng/hard_code</code>。如下：<code>android:text=&quot;你好，我是硬编码&quot;</code>—&gt;<code>&lt;string name=&quot;hard_code&quot;&gt;你好，我是硬编码&lt;/string&gt;</code>—&gt;<code>android:text=&quot;@stirng/hard_code&quot;</code>。有思路之后，就可以动手了。</p>
+<p>首先把项目<code>res/layout</code>文件夹复制出来，然后：</p>
+<h3 id="查找所有的硬编码字符串"><a href="#查找所有的硬编码字符串" class="headerlink" title="查找所有的硬编码字符串"></a>查找所有的硬编码字符串</h3><p>Android布局文件中，可能硬编码的属性有<code>android:text</code>、<code>android:hint</code>、<code>tools:text</code>、尺寸相关的<code>android:textSize</code>、<code>android:layout_width</code> 、<code>android:layout_height</code>等这里我仅关注<code>android:text</code>、<code>android:hint</code>、<code>tools:text</code>即可。</p>
+<pre><code>#属性
+#需将`android:`、`tools`替换为原命名空间
+attrs = (
+    &quot;{http://schemas.android.com/apk/res/android}text&quot;,
+    &quot;{http://schemas.android.com/apk/res/android}hint&quot;,
+    &quot;{http://schemas.android.com/tools}text&quot;,
+)
+
+
+
+1.  获取布局文件
+def get_layout_files(path):
+    &apos;&apos;&apos;
+    获取所有的布局文件
+    :param path: 布局文件路径
+    :return:
+    &apos;&apos;&apos;
+    res = []
+    files = os.listdir(path)
+    for file in files:
+        res.append(path + &quot;/&quot; + file)
+    return res
+2. 解析布局文件，这里我们用lxml的ElementTree来解析，所以我们需要引入：
+try:
+    import xml.etree.cElementTree as ET
+except ImportError:
+    import xml.etree.ElementTree as ET
+
+a. 根文件获取ElementTree的根节点
+def get_file_element_tree(file):
+    &apos;&apos;&apos;
+    更具文件名（路径）返回ElementTree根节点
+    :param file:
+    :return:
+    &apos;&apos;&apos;
+    tree = ET.ElementTree(file=file)
+    return tree.getroot()
+b. 获取硬编码的属性值
+def find_hard_code_attribute_value(tree_root, attrs):
+    &apos;&apos;&apos;
+    获取属性值
+    :param tree_root: ElementTree树根
+    :param attr: 要获取值的属性
+    :return: set() 返回值， 用集合保存，可以去掉重复的元素
+    &apos;&apos;&apos;
+    res = set()
+    for attr in attrs:
+        root_hard_code = tree_root.get(attr) #  获取根节点的硬编码
+        if root_hard_code is not None and len(root_hard_code) and     str(root_hard_code).find(&quot;@string/&quot;) == -1:
+        # 如果属性值不会空且不是软编码（）则就是我们要找的硬编码字符串
+            res.add(root_hard_code)
+        children = tree_root.findall(&quot;.//*[@&quot; + attr + &quot;]&quot;)
+        for child in children:
+            hard_code = child.get(attr) # 获取属性值
+            if hard_code is not None and len(hard_code) and str(hard_code).find(&quot;@string/&quot;) == -1:
+            # 如果属性值不会空且不是软编码（）则就是我们要找的硬编码字符串
+                res.add(hard_code)
+    return res
+</code></pre><h3 id="生成strings-xml文件"><a href="#生成strings-xml文件" class="headerlink" title="生成strings.xml文件"></a>生成strings.xml文件</h3><pre><code>1. 根据硬编码的字符串，生成对应的符合Android字符串资源命名规范的名称，用字典保存，字典key为硬编码字符串,value为对应的名称。
+def generate_name_of_hard_code_string(hard_codes):
+    &apos;&apos;&apos;
+    根据硬编码字符串生成符合规范的名字，这里我们根据这样的规则生成名字：
+    a、英文字符串，则用其本省（出去空格、标点等）
+    b、中文字符串，则为其单字节拼音用&quot;_&quot;连接，如&quot;硬编码&quot;对应的名称为&quot;yin_bian_ma&quot;，
+        这里的拼音转换我们通过pypinyin库来实现，如果涉及到分词，还需要安装jieba
+    :param hard_codes:
+    :return: 返回类型为字典，字典的键为硬编码的值，值则为根据硬编码生成的符合strings资源文件命名规范的字符串
+    &apos;&apos;&apos;
+    res = dict()
+    for hard_code in hard_codes:
+        hc = re.sub(&quot;&quot;&quot;[\s+\.\!\/_,\{\}:$%^*()?+\&quot;\&apos;]+|[+——＋！：，\\\ 。？、~@#￥%……&amp;*（）]+&quot;&quot;&quot;, &quot;&quot;, hard_code) #去除特殊字符
+        py = &apos;&apos;
+        if hc is None or len(hc) == 0: #如果去除字符后为，则硬编码为特殊字符，这是我们就要随机命名
+            py = generate_random_string(15)
+        else:
+            py = lazy_pinyin(hc)
+            py = &apos;_&apos;.join(py)[0:25].strip() #限制长度，去除空格
+        try:
+            res[str(hard_code)] = py
+        except Exception as e:
+            print(e)
+            pass
+
+    return res
+
+2.根据上一步生成的字典，构造strings.xml文件
+def generate_strings_xml(file, dict):
+    &apos;&apos;&apos;
+    根据字典生成strings.xml文件
+    :param file: 文件路径
+    :param dict: 硬编码字符串和其名称构成的字典
+    :return:
+    &apos;&apos;&apos;
+    f = open(file,&quot;w&quot;)
+    strings = []
+    strings.append(&apos;&lt;resources&gt;\n&apos;)
+    for (k, v) in dict.items():
+        temp = &apos;\t&lt;string name=&quot;&apos; + v + &apos;&quot;&gt;&apos; + k + &apos;&lt;/string&gt;\n&apos;
+        strings.append(temp)
+    strings.append(&quot;&lt;/resources&gt;&quot;)
+    try:
+        f.writelines(strings)
+        f.close()
+        print(&quot;strings.xml文件生成成功&quot;)
+    except Exception as e:
+        print(e)
+        print(&quot;strings.xml文件生成失败&quot;)
+        pass
+检查生成的strings.xml文件，手动进行命名优化。
+</code></pre><h3 id="替换硬编码字符串"><a href="#替换硬编码字符串" class="headerlink" title="替换硬编码字符串"></a>替换硬编码字符串</h3><pre><code>1. 读取strings.xml中的字符串资源，构造字典。
+def get_string_and_name_from_stringXML(file):
+    &apos;&apos;&apos;
+    读取strings.xml中的字符串资源，用字典保存
+    :param file:
+    :return:
+    &apos;&apos;&apos;
+    res = {}
+    root = get_file_element_tree(file)
+    strings = root.findall(&quot;.//string&quot;)
+    for str in strings:
+        res[str.text] = str.get(&quot;name&quot;)
+    return res
+
+2.替换布局文件中的硬编码
+def replace_hard_code(src_file, des_file, dicts):
+    &apos;&apos;&apos;
+    用字符串引用替换所有的字符
+    :param src_file: 带替换的布局文件
+    :param des_file: 替换后的文件
+    :param dict: 硬编码字典
+    :return:
+    &apos;&apos;&apos;
+    lines = open(src_file).readlines()
+    new_lines = []
+    for line in lines:
+        for (k, v) in dicts.items():
+            line = line.replace(&apos;=&quot;&apos; + k +&apos;&quot;&apos;,  &apos;=&quot;&apos; + &quot;@string/&quot; + v + &apos;&quot;&apos;)
+        if len(line.strip()) &gt; 0:
+            new_lines.append(line)
+
+    with open(des_file, &quot;w&quot;) as d_f:
+        d_f.writelines(new_lines)
+</code></pre><p>最后</p>
+<ol>
+<li>将生成的strings.xml文件内容最佳到项目字符串资源文件中。</li>
+<li>再将生成的布局文件覆盖到项目<code>res/layout</code>目录下。</li>
+</ol>
+<p>到此，字符串硬编码问题解决。欢迎对我提出建议或意见，若喜欢请star！<br>完整代码请看：<a href="https://github.com/bbsmp/ResovleAndroidHardCodeWithPython.git" target="_blank" rel="noopener">https://github.com/bbsmp/ResovleAndroidHardCodeWithPython.git</a>。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/20/设计模式之观察者模式/" rel="next" title="设计模式之观察者模式">
+                <i class="fa fa-chevron-left"></i> 设计模式之观察者模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">bbsmp</p>
+              <p class="site-description motion-element" itemprop="description">代码如诗</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android布局中的硬编码"><span class="nav-number">1.</span> <span class="nav-text">Android布局中的硬编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题的出现"><span class="nav-number">2.</span> <span class="nav-text">问题的出现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用Python解决字符串硬编码问题"><span class="nav-number">3.</span> <span class="nav-text">利用Python解决字符串硬编码问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查找所有的硬编码字符串"><span class="nav-number">3.1.</span> <span class="nav-text">查找所有的硬编码字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成strings-xml文件"><span class="nav-number">3.2.</span> <span class="nav-text">生成strings.xml文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#替换硬编码字符串"><span class="nav-number">3.3.</span> <span class="nav-text">替换硬编码字符串</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bbsmp</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/reading_progress/reading_progress.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'wMO4tNqTQtmlc7yoAIVqyE0d-gzGzoHsz',
+        appKey: 'OGsLnJHw7Tq7Ezpye22SOsaD',
+        placeholder: '说点什么吧',
+        avatar:'mm',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: true
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+</body>
+</html>
