@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.8.0">
+<meta name="generator" content="Hexo 4.0.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -22,9 +22,9 @@
     root: '/',
     scheme: 'Gemini',
     version: '7.5.0',
-    exturl: false,
+    exturl: true,
     sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
+    copycode: {"enable":false,"show_result":false,"style":"mac"},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
@@ -49,14 +49,12 @@
 <meta name="keywords" content="Android,硬编码,Python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="用Python解决Android布局中的字符串硬编码问题">
-<meta property="og:url" content="https://bbsmp.github.io/2017/02/23/python-to-android-hard-code/index.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;bbsmp.github.io&#x2F;2017&#x2F;02&#x2F;23&#x2F;python-to-android-hard-code&#x2F;index.html">
 <meta property="og:site_name" content="bbsmp">
 <meta property="og:description" content="Android布局中的硬编码 什么是Android布局中的硬编码   Android里的硬编码指在布局里直接填写值（如尺寸、颜色、字符等），而非对相关资源的引用。这里以android:text为例：">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2017-02-24T05:59:05.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="用Python解决Android布局中的字符串硬编码问题">
-<meta name="twitter:description" content="Android布局中的硬编码 什么是Android布局中的硬编码   Android里的硬编码指在布局里直接填写值（如尺寸、颜色、字符等），而非对相关资源的引用。这里以android:text为例：">
 
 <link rel="canonical" href="https://bbsmp.github.io/2017/02/23/python-to-android-hard-code/">
 
@@ -120,7 +118,8 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-        <p class="site-subtitle">寂灭永恒</p>
+        <h1 class="site-subtitle" itemprop="description">寂灭永恒</h1>
+      
   </div>
 
   <div class="site-nav-toggle">
@@ -141,19 +140,19 @@
     <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
 
   </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
-
-  </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">4</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">2</span></a>
 
   </li>
   </ul>
@@ -182,22 +181,22 @@
       
   
   
-  <article itemscope="" itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://bbsmp.github.io/2017/02/23/python-to-android-hard-code/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpeg">
       <meta itemprop="name" content="bbsmp">
       <meta itemprop="description" content="代码如诗">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="bbsmp">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           用Python解决Android布局中的字符串硬编码问题
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -213,7 +212,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Android/" itemprop="url" rel="index">
                     <span itemprop="name">Android</span>
                   </a>
@@ -262,14 +261,12 @@
     android:layout_width=&quot;match_parent&quot;
     android:layout_height=&quot;wrap_content&quot;
     android:text=&quot;你好，我是硬编码&quot;
-    android:textSize=&quot;@dimen/li_16sp_size&quot;/&gt;
-</code></pre><p>软编码：</p>
+    android:textSize=&quot;@dimen/li_16sp_size&quot;/&gt;</code></pre><p>软编码：</p>
 <pre><code>&lt;TextView
     android:layout_width=&quot;match_parent&quot;
     android:layout_height=&quot;wrap_content&quot;
     android:text=&quot;@stirng/hard_code&quot;
-    android:textSize=&quot;@dimen/li_16sp_size&quot;/&gt;
-</code></pre><p>“你好，我是硬编码”在字符串资源里是这样的：<br><code>&lt;string name=&quot;hard_code&quot;&gt;你好，我是硬编码&lt;/string&gt;</code></p>
+    android:textSize=&quot;@dimen/li_16sp_size&quot;/&gt;</code></pre><p>“你好，我是硬编码”在字符串资源里是这样的：<br><code>&lt;string name=&quot;hard_code&quot;&gt;你好，我是硬编码&lt;/string&gt;</code></p>
 <ul>
 <li>硬编码的优缺点<br>在Android布局中硬编码有什么优缺点呢，在我看来除了方便外，并没有别的优点，然而这个“优点”会为后面的维护扩展带来困难，所以也算不得什么优点，大致可认为这是Android开发中的一个坏习惯。这个坏习惯我们尽量要改掉，因为：</li>
 </ul>
@@ -282,8 +279,7 @@
 <pre><code>错误: Exception while handling step android.databinding.annotationprocessor.ProcessExpressions@572da56d javax.xml.bind.UnmarshalException
 - with linked exception:
 [org.apache.xerces.impl.io.MalformedByteSequenceException: Invalid byte 2 of 2-byte UTF-8 sequence.]
-······
-</code></pre><p> 经查发现，这是因为在Windows环境下,布局中databinding相关的中文字符非UTF-8所致，也就是说，这是中文硬编码导致的问题。用Lint分析一下发现硬编码的地方有279个，叉，手动改的话还不改死人？而且手动，这<strong>违背</strong>程序员<strong>懒的美德</strong>。怎么办呢？刚好前段时间看了一下Python,那就用Python解决这个问题吧！</p>
+······</code></pre><p> 经查发现，这是因为在Windows环境下,布局中databinding相关的中文字符非UTF-8所致，也就是说，这是中文硬编码导致的问题。用Lint分析一下发现硬编码的地方有279个，叉，手动改的话还不改死人？而且手动，这<strong>违背</strong>程序员<strong>懒的美德</strong>。怎么办呢？刚好前段时间看了一下Python,那就用Python解决这个问题吧！</p>
 <h2 id="利用Python解决字符串硬编码问题"><a href="#利用Python解决字符串硬编码问题" class="headerlink" title="利用Python解决字符串硬编码问题"></a>利用Python解决字符串硬编码问题</h2><p>我们要做的事情，就是查找出布局文件里所有的中文字符串，并为其生成一个符合Android字符串资源命名规范的名字，构造字符串资源，然后将布局里所有的字符串替换为字符串资源的引用如<code>@stirng/hard_code</code>。如下：<code>android:text=&quot;你好，我是硬编码&quot;</code>—&gt;<code>&lt;string name=&quot;hard_code&quot;&gt;你好，我是硬编码&lt;/string&gt;</code>—&gt;<code>android:text=&quot;@stirng/hard_code&quot;</code>。有思路之后，就可以动手了。</p>
 <p>首先把项目<code>res/layout</code>文件夹复制出来，然后：</p>
 <h3 id="查找所有的硬编码字符串"><a href="#查找所有的硬编码字符串" class="headerlink" title="查找所有的硬编码字符串"></a>查找所有的硬编码字符串</h3><p>Android布局文件中，可能硬编码的属性有<code>android:text</code>、<code>android:hint</code>、<code>tools:text</code>、尺寸相关的<code>android:textSize</code>、<code>android:layout_width</code> 、<code>android:layout_height</code>等这里我仅关注<code>android:text</code>、<code>android:hint</code>、<code>tools:text</code>即可。</p>
@@ -344,8 +340,7 @@ def find_hard_code_attribute_value(tree_root, attrs):
             if hard_code is not None and len(hard_code) and str(hard_code).find(&quot;@string/&quot;) == -1:
             # 如果属性值不会空且不是软编码（）则就是我们要找的硬编码字符串
                 res.add(hard_code)
-    return res
-</code></pre><h3 id="生成strings-xml文件"><a href="#生成strings-xml文件" class="headerlink" title="生成strings.xml文件"></a>生成strings.xml文件</h3><pre><code>1. 根据硬编码的字符串，生成对应的符合Android字符串资源命名规范的名称，用字典保存，字典key为硬编码字符串,value为对应的名称。
+    return res</code></pre><h3 id="生成strings-xml文件"><a href="#生成strings-xml文件" class="headerlink" title="生成strings.xml文件"></a>生成strings.xml文件</h3><pre><code>1. 根据硬编码的字符串，生成对应的符合Android字符串资源命名规范的名称，用字典保存，字典key为硬编码字符串,value为对应的名称。
 def generate_name_of_hard_code_string(hard_codes):
     &apos;&apos;&apos;
     根据硬编码字符串生成符合规范的名字，这里我们根据这样的规则生成名字：
@@ -395,8 +390,7 @@ def generate_strings_xml(file, dict):
         print(e)
         print(&quot;strings.xml文件生成失败&quot;)
         pass
-检查生成的strings.xml文件，手动进行命名优化。
-</code></pre><h3 id="替换硬编码字符串"><a href="#替换硬编码字符串" class="headerlink" title="替换硬编码字符串"></a>替换硬编码字符串</h3><pre><code>1. 读取strings.xml中的字符串资源，构造字典。
+检查生成的strings.xml文件，手动进行命名优化。</code></pre><h3 id="替换硬编码字符串"><a href="#替换硬编码字符串" class="headerlink" title="替换硬编码字符串"></a>替换硬编码字符串</h3><pre><code>1. 读取strings.xml中的字符串资源，构造字典。
 def get_string_and_name_from_stringXML(file):
     &apos;&apos;&apos;
     读取strings.xml中的字符串资源，用字典保存
@@ -428,13 +422,12 @@ def replace_hard_code(src_file, des_file, dicts):
             new_lines.append(line)
 
     with open(des_file, &quot;w&quot;) as d_f:
-        d_f.writelines(new_lines)
-</code></pre><p>最后</p>
+        d_f.writelines(new_lines)</code></pre><p>最后</p>
 <ol>
 <li>将生成的strings.xml文件内容最佳到项目字符串资源文件中。</li>
 <li>再将生成的布局文件覆盖到项目<code>res/layout</code>目录下。</li>
 </ol>
-<p>到此，字符串硬编码问题解决。欢迎对我提出建议或意见，若喜欢请star！<br>完整代码请看：<a href="https://github.com/bbsmp/ResovleAndroidHardCodeWithPython.git" target="_blank" rel="noopener">https://github.com/bbsmp/ResovleAndroidHardCodeWithPython.git</a>。</p>
+<p>到此，字符串硬编码问题解决。欢迎对我提出建议或意见，若喜欢请star！<br>完整代码请看：<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2Jic21wL1Jlc292bGVBbmRyb2lkSGFyZENvZGVXaXRoUHl0aG9uLmdpdA==" title="https://github.com/bbsmp/ResovleAndroidHardCodeWithPython.git">https://github.com/bbsmp/ResovleAndroidHardCodeWithPython.git<i class="fa fa-external-link"></i></span>。</p>
 
     </div>
 
@@ -443,16 +436,17 @@ def replace_hard_code(src_file, des_file, dicts):
     
 
       <footer class="post-footer">
+          
           <div class="post-tags">
-              <a href="/tags/Python/" rel="tag"># Python</a>
-              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+              <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2017/01/20/设计模式之观察者模式/" rel="next" title="设计模式之观察者模式">
+                <a href="/2017/01/20/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="next" title="设计模式之观察者模式">
                   <i class="fa fa-chevron-left"></i> 设计模式之观察者模式
                 </a>
             </div>
@@ -504,15 +498,17 @@ def replace_hard_code(src_file, des_file, dicts):
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="bbsmp" src="/images/avatar.jpeg">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="bbsmp"
+      src="/images/avatar.jpeg">
   <p class="site-author-name" itemprop="name">bbsmp</p>
   <div class="site-description" itemprop="description">代码如诗</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives">
+          <a href="/archives/">
+        
           <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
         </a>
@@ -533,10 +529,10 @@ def replace_hard_code(src_file, des_file, dicts):
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/bbsmp" title="GitHub → https://github.com/bbsmp" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2Jic21w" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bbsmp"><i class="fa fa-fw fa-github"></i></span>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:qinmetec@163.com" title="E-Mail → mailto:qinmetec@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+        <span class="exturl" data-url="bWFpbHRvOnFpbm1ldGVjQDE2My5jb20=" title="E-Mail → mailto:qinmetec@163.com"><i class="fa fa-fw fa-envelope"></i></span>
       </span>
   </div>
 
@@ -597,9 +593,14 @@ def replace_hard_code(src_file, des_file, dicts):
                 console.log('Failed to save visitor count', error);
               })
           } else {
-              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
-              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
-            
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.log('Failed to create', error);
+                });
           }
         })
         .catch(error => {
@@ -726,6 +727,8 @@ if (document.querySelectorAll('div.pdf').length) {
 
   
 
+  
+
 
 <script>
 NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
@@ -736,7 +739,7 @@ NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
   });
   new Valine({
     el: '#comments',
-    verify: false,
+    verify: true,
     notify: false,
     appId: 'wMO4tNqTQtmlc7yoAIVqyE0d-gzGzoHsz',
     appKey: 'OGsLnJHw7Tq7Ezpye22SOsaD',
@@ -745,7 +748,7 @@ NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
     meta: guest,
     pageSize: '10' || 10,
     visitor: false,
-    lang: '' || 'zh-cn',
+    lang: 'zh-cn' || 'zh-cn',
     path: location.pathname,
     recordIP: false,
     serverURLs: ''
